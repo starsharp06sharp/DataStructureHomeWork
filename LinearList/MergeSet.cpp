@@ -2,6 +2,24 @@
 
 using namespace std;
 
+namespace my {
+    void qsort(int* a, int left, int right)
+    {
+        if (left >= right) return ;
+        int middle = a[(left + right) / 2];
+        int i = left;
+        int j = right;
+        while (true) {
+            while (a[i] < middle) ++i;
+            while (a[j] > middle) --j;
+            if (i >= j) break;
+            swap(a[i], a[j]);
+        }
+        qsort(a, left, i - 1);
+        qsort(a, i + 1, right);
+    }
+    
+}
 size_t merge (size_t aLen, size_t bLen, int* a, int* b, int* target)
 {
     size_t i = 0, j = 0, k = 0;
@@ -34,7 +52,8 @@ int main ()
     for (size_t i = 0; i < bLen; ++i) {
         cin >> b[i];
      }
-    //注：输入有序
+     my::qsort(a, 0, aLen - 1);
+     my::qsort(b, 0, bLen - 1);
      int ans[aLen + bLen];
      size_t ansLen = merge(aLen, bLen, a, b, ans);
 
